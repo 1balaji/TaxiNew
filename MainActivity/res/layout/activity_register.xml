@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="false">
+
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_name"
+            android:id="@+id/textView_register_id"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="8dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="40dp"/>
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText_register_id"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="70dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:layout_alignRight="@+id/button_register_clear"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/password"
+            android:id="@+id/textView_register_password"
+            android:layout_alignLeft="@+id/textView_register_id"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="75dp"
+            android:layout_toLeftOf="@+id/editText_register_id"
+            android:layout_alignRight="@+id/textView_register_phone"/>
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText_register_password"
+            android:layout_toRightOf="@+id/textView_register_id"
+            android:layout_below="@+id/editText_register_id"
+            android:layout_alignRight="@+id/editText_register_id"
+            android:layout_alignLeft="@+id/editText_register_id"/>
+
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText_register_name"
+            android:layout_toRightOf="@+id/textView_register_id"
+            android:layout_below="@+id/editText_register_password"
+            android:layout_alignRight="@+id/editText_register_id"
+            android:layout_alignLeft="@+id/editText_register_id"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="@string/phone"
+            android:id="@+id/textView_register_phone"
+            android:layout_alignLeft="@+id/textView_register_id"
+            android:layout_below="@+id/editText_register_name"/>
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText_register_phone"
+            android:layout_toRightOf="@+id/textView_register_id"
+            android:layout_below="@+id/editText_register_name"
+            android:layout_alignRight="@+id/editText_register_id"
+            android:layout_alignLeft="@+id/editText_register_id"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sure"
+            android:id="@+id/button_register_sure"
+            android:onClick="onRegister"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/clear"
+            android:id="@+id/button_register_clear"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/button_register_sure"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textView"
+            android:layout_toLeftOf="@+id/editText_register_id"
+            android:layout_below="@+id/editText_register_password"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:text="@string/name"
+            android:id="@+id/textView_register_name"
+            android:layout_alignLeft="@+id/textView_register_id"
+            android:layout_below="@+id/editText_register_password"
+            android:layout_alignBottom="@+id/editText_register_name"/>
+
+
+</RelativeLayout>

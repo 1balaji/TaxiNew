@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical"
+              android:background="#FFF"
+        >
+
+    <RelativeLayout
+            android:id="@+id/RelativeLayout_roadsearch_top"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/search_plate_global"
+            android:gravity="top">
+
+        <ImageButton
+                android:id="@+id/imagebtn_roadsearch_startoption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="10.0dip"
+                android:layout_marginTop="6.0dip"
+                android:background="@android:color/transparent"
+                android:src="@drawable/btn_nav_drag_down"/>
+
+        <ImageButton
+                android:id="@+id/imagebtn_roadsearch_goalsoption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/imagebtn_roadsearch_startoption"
+                android:layout_marginRight="10.0dip"
+                android:layout_marginTop="8.0dip"
+                android:background="@android:color/transparent"
+                android:src="@drawable/btn_nav_drag_down"/>
+
+        <AutoCompleteTextView
+                android:id="@+id/autotextview_roadsearch_start"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/imagebtn_roadsearch_startoption"
+                android:layout_marginLeft="5.0dip"
+                android:layout_toLeftOf="@id/imagebtn_roadsearch_startoption"
+                android:background="@drawable/text_search"
+                android:dropDownVerticalOffset="1.0dip"
+                android:hint="起点:"
+                android:imeOptions="actionDone"
+                android:inputType="text|textAutoComplete"
+                android:maxLength="20"
+                android:paddingRight="37.0dip"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="16.0sp"/>
+
+        <AutoCompleteTextView
+                android:id="@+id/autotextview_roadsearch_goals"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/imagebtn_roadsearch_goalsoption"
+                android:layout_marginLeft="5.0dip"
+                android:layout_toLeftOf="@id/imagebtn_roadsearch_goalsoption"
+                android:background="@drawable/text_search"
+                android:dropDownVerticalOffset="1.0dip"
+                android:hint="终点:"
+                android:imeOptions="actionDone"
+                android:inputType="text|textAutoComplete"
+                android:maxLength="20"
+                android:paddingRight="37.0dip"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="16.0sp"/>
+
+        <ImageButton
+                android:id="@+id/imagebtn_timepicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/btn_nav_drag_down"
+                android:layout_alignLeft="@+id/imagebtn_roadsearch_startoption"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="76dp"/>
+
+        <ImageButton
+                android:id="@+id/imagebtn_datepicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/btn_nav_drag_down"
+                android:layout_alignLeft="@+id/imagebtn_roadsearch_startoption"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="110dp"/>
+
+        <TextView
+                android:id="@+id/autotextview_timepicker"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/imagebtn_timepicker"
+                android:layout_marginLeft="5.0dip"
+                android:layout_toLeftOf="@id/imagebtn_timepicker"
+                android:background="@drawable/text_search"
+                android:hint="时间:"
+                android:maxLength="20"
+                android:paddingRight="37.0dip"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="16.0sp"/>
+
+        <TextView
+                android:id="@+id/autotextview_datepicker"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/imagebtn_datepicker"
+                android:layout_marginLeft="5.0dip"
+                android:layout_toLeftOf="@id/imagebtn_datepicker"
+                android:background="@drawable/text_search"
+                android:hint="日期:"
+                android:maxLength="20"
+                android:paddingRight="37.0dip"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="16.0sp"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提交"
+                android:id="@+id/button_route_submit"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:minWidth="30dp"
+                android:width="120dp"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="取消"
+                android:id="@+id/button_route_cancle"
+                android:layout_alignTop="@+id/button_route_submit"
+                android:layout_alignParentRight="true"
+                android:width="120dp"/>
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

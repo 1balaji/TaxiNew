@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="起点："
+            android:id="@+id/textView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="16dp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_showmessage_strname"
+            android:layout_toRightOf="@+id/textview6"
+            android:layout_alignTop="@+id/textView"
+            android:layout_alignParentRight="true"
+            />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="终点："
+            android:id="@+id/textView2"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="48dp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_showmessage_endname"
+            android:layout_alignTop="@+id/textView2"
+            android:layout_alignRight="@+id/textView_showmessage_strname"
+            android:layout_alignLeft="@+id/textView_showmessage_strname"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="距离："
+            android:id="@+id/textView4"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="80dp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_showmeaasge_distance"
+            android:layout_alignTop="@+id/textView4"
+            android:layout_alignRight="@+id/textView_showmessage_strname"
+            android:layout_alignLeft="@+id/textView_showmessage_strname"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="使用时间："
+            android:id="@+id/textview6"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="112dp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_showmeaasge_time"
+            android:layout_toRightOf="@+id/textView"
+            android:layout_alignTop="@+id/textview6"
+            android:layout_alignRight="@+id/textView_showmessage_strname"
+            android:layout_alignLeft="@+id/textView_showmessage_strname"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="抢单"
+            android:id="@+id/button_showmeaasge_submit"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_alignParentBottom="true"
+            android:width="100dp"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消"
+            android:id="@+id/button_showmeaasge_cancel"
+            android:layout_alignRight="@+id/textView_showmessage_strname"
+            android:layout_alignTop="@+id/button_showmeaasge_submit"
+            android:width="100dp"/>
+</RelativeLayout>

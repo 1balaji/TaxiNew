@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Driver</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_map">MapActivity</string>
+
+    <!-- Login -->
+    <string name="user_name">用户名</string>
+    <string name="password">密码</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <!-- register -->
+    <string name="name">车牌照</string>
+    <string name="phone">电话</string>
+    <string name="sure">确定</string>
+    <string name="clear">清空</string>
+
+
+    <!--AMAP-->
+    <string name="map_not_ready">SupportMapFragment初始化失败</string>
+    <string name="location">location is doing</string>
+</resources>

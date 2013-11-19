@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="org.cug.driver"
+          android:versionCode="1"
+          android:versionName="1.0">
+
+    <uses-sdk
+            android:minSdkVersion="8"
+            android:targetSdkVersion="8"/>
+
+    <uses-feature
+            android:glEsVersion="0x00020000"
+            android:required="true"/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
+
+    <application
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme"
+            >
+        <meta-data
+                android:name="com.amap.api.v2.apikey"
+                android:value="53455a43141f60608f878e60ec6a5777"/>
+
+
+        <provider
+                android:name="org.cug.amap.poisearch.MySuggestionProvider"
+                android:authorities="org..org.cug.amap.poisearch.MySuggestionProvider"
+                android:exported="true"/>
+
+        <activity
+                android:name="org.cug.driver.MainActivity"
+                android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+                android:name="org.cug.driver.LoginActivity"
+                android:label="@string/app_name"
+                >
+        </activity>
+        <activity
+                android:name="org.cug.driver.RegisterActivity"
+                android:label="@string/app_name"
+                >
+        </activity>
+        <activity
+                android:name="org.cug.driver.MapActivity"
+                android:label="@string/title_activity_map"
+                android:screenOrientation="sensor"
+                android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity
+                android:name="org.cug.driver.RouteInfoListActivity"
+                android:label="@string/app_name"/>
+        <activity
+                android:name="org.cug.driver.ShowMessageActivity"
+                android:label="showmessage"/>
+
+
+    </application>
+
+
+    <supports-screens
+            android:largeScreens="true"
+            android:normalScreens="false"
+            android:smallScreens="true"
+            android:resizeable="true"
+            android:anyDensity="true"/>
+
+</manifest>
