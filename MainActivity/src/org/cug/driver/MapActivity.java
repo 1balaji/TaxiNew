@@ -1,7 +1,10 @@
 package org.cug.driver;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +16,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import cn.jpush.android.api.JPushInterface;
+
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
@@ -29,6 +34,9 @@ import com.amap.api.search.core.AMapException;
 import com.amap.api.search.core.LatLonPoint;
 import com.amap.api.search.poisearch.PoiPagedResult;
 import com.amap.api.search.route.Route;
+
+import org.cug.amap.jpush.ExampleUtil;
+import org.cug.amap.jpush.ReceiveMessage.MessageReceiver;
 import org.cug.amap.route.RouteOverlay;
 import org.cug.amap.util.AMapUtil;
 import org.cug.amap.util.Constants;
@@ -74,6 +82,9 @@ public class MapActivity extends FragmentActivity implements
     private Marker startMk;
 
     private int distance;
+    
+    
+    public static boolean isForeground = false;
 
 
     @Override
@@ -82,10 +93,62 @@ public class MapActivity extends FragmentActivity implements
         setContentView(R.layout.activity_map);
         init();
         initEndTextView();
+        
+        //初始化JPush推送
+        initJpush();
+		registerMessageReceiver();
+        
 
     }
 
 
+    
+ // 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
+ 	private void initJpush() {
+ 		JPushInterface.init(getApplicationContext());
+ 	}
+    
+ // for receive customer msg from jpush server
+ 	private MessageReceiver mMessageReceiver;
+ 	public static final String MESSAGE_RECEIVED_ACTION = "org.cug.driver.MESSAGE_RECEIVED_ACTION";
+ 	public static final String KEY_TITLE = "title";
+ 	public static final String KEY_MESSAGE = "message";
+ 	public static final String KEY_EXTRAS = "extras";
+
+ 	public void registerMessageReceiver() {
+ 		mMessageReceiver = new MessageReceiver();
+ 		IntentFilter filter = new IntentFilter();
+ 		filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+ 		filter.addAction(MESSAGE_RECEIVED_ACTION);
+ 		registerReceiver(mMessageReceiver, filter);
+ 	}
+
+ 	public class MessageReceiver extends BroadcastReceiver {
+
+ 		@Override
+ 		public void onReceive(Context context, Intent intent) {
+ 			if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+ 				String messge = intent.getStringExtra(KEY_MESSAGE);
+ 				String extras = intent.getStringExtra(KEY_EXTRAS);
+ 				StringBuilder showMsg = new StringBuilder();
+ 				showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
+ 				if (!ExampleUtil.isEmpty(extras)) {
+ 					showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
+ 				}
+ 				
+ 			}
+ 		}
+ 	}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * 初始化AMap对象
      */
