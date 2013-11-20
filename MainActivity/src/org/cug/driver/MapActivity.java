@@ -105,6 +105,8 @@ public class MapActivity extends FragmentActivity implements
     
  // 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
  	private void initJpush() {
+ 		JPushInterface.setAlias(getApplicationContext(), "test1", null);
+ 		
  		JPushInterface.init(getApplicationContext());
  	}
     

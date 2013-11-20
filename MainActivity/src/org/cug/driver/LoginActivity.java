@@ -23,6 +23,9 @@ import org.cug.util.SharedPreferencesTool;
 import org.cug.util.SysApplication;
 import org.cug.util.Tools;
 
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
+
 import java.net.UnknownHostException;
 
 public class LoginActivity extends Activity {
@@ -131,6 +134,13 @@ public class LoginActivity extends Activity {
      */
     public void onLogin(View view) throws UnknownHostException {
 
+    	
+    	//测试，添加用户别名
+    	
+    	
+    	JPushInterface.setAlias(LoginActivity.this, "test1", null);
+    	
+    	
         if (Settings.TESTMODE) {
             // 同步控制
             if (clicking == false) {

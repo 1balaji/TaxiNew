@@ -23,6 +23,9 @@ public class MyReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
+        
+        String messageTest=bundle.getString("cn.jpush.android.ALERT");
+        
 		Log.d(TAG, "onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
 		
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
@@ -67,7 +70,7 @@ public class MyReceiver extends BroadcastReceiver {
 			if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
 				sb.append("\nkey:" + key + ", value:" + bundle.getInt(key));
 			} else {
-				sb.append("\nkey:" + key + ", value:" + bundle.getString(key));
+				sb.append("\nkey:" + key + ", value:" + bundle.getString(key));//key:cn.jpush.android.ALERT, value:65489 
 			}
 		}
 		return sb.toString();
