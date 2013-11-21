@@ -15,17 +15,22 @@ public class SQLiteTool {
     SQLiteDatabase mDb;
     private final static String DATABASE_NAME = "dache.db";
     private final static String TABLE_NAME = "passengerinfo";
+    
     public final static String FIELD1 = "startlat";
     public final static String FIELD2 = "startlon";
     public final static String FIELD3 = "startname";
+    
     public final static String FIELD4 = "endlat";
     public final static String FIELD5 = "endlon";
     public final static String FIELD6 = "endname";
+    
     public final static String FIELD7 = "distance";
     public final static String FIELD8 = "timetext";
+    
     public final static String FIELD9 = "passengername";
     public final static String FIELD10 = "passengerphone";
     public final static String FIELD11 = "passengerid";
+    
     public final static String FIELD12 = "routeinfoid";
     public final static String FIELD13 = "issuccessed";
 

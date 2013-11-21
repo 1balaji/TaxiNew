@@ -124,7 +124,9 @@ public class NetService extends Activity {
         // 指定WebService的命名空间和调用的方法名
         SoapObject rpc = new SoapObject(nameSpace, Settings.WEBMETHODNAME);
         // 设置需调用WebService接口需要传入的参数
-
+        
+        rpc.addProperty("userName", " ");
+		rpc.addProperty("password", " ");
         rpc.addProperty("content", content);// 第三方应用交换的数据
 
         // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本
