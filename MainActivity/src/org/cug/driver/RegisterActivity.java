@@ -160,7 +160,7 @@ public class RegisterActivity extends Activity {
 				final String content = makeParameter();// 请求参数
 				try {
 					progressDialog = ProgressDialog.show(RegisterActivity.this,
-							"登陆中...", "请稍候...", true, false);
+							"注册中...", "请稍候...", true, false);
 					final NetService netservice = NetService.getInstance();
 					Thread th = new Thread() {
 						@Override
@@ -170,7 +170,7 @@ public class RegisterActivity extends Activity {
 
 							Message msg = new Message();
 							Bundle bundle = new Bundle();
-							bundle.putString("msg", result); // 往Bundle中存放数据
+							bundle.putString("msg2", result); // 往Bundle中存放数据
 							msg.setData(bundle);// message利用Bundle传递数据
 
 							handler.sendMessage(msg);
@@ -199,7 +199,7 @@ public class RegisterActivity extends Activity {
 				overridePendingTransition(R.anim.fade, R.anim.hold);// fade效果切换窗口
 				RegisterActivity.this.finish();// 销毁窗口
 			} else {
-				String resultString = msg.getData().getString("msg");
+				String resultString = msg.getData().getString("msg2");
 				if (resultString.contains(Settings.SUCC)) {
 
 					SharedPreferencesTool.saveUserInfo(getBaseContext(),
@@ -210,11 +210,12 @@ public class RegisterActivity extends Activity {
 					overridePendingTransition(R.anim.fade, R.anim.hold);
 					RegisterActivity.this.finish();
 
-				} else if (resultString.equals(Settings.FAIL)) {
-					Tools.alert(RegisterActivity.this, "注册失败,请检查网络或重试!");
 				} else {
-					Tools.alert(RegisterActivity.this, "注册失败:" + resultString
+					String[] arr = resultString.split("@");
+					String faultString = arr[2];
+					Tools.alert(RegisterActivity.this, "注册失败:" + faultString
 							+ " 请检查网络或重试!");
+
 				}
 
 			}

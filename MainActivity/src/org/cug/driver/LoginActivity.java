@@ -37,6 +37,11 @@ public class LoginActivity extends Activity {
      * 用于控制按钮不能在短时间内连续点击
      */
     private Boolean clicking = false;
+    
+    
+	/* 司机输入的注册信息 */
+	private String userID;
+	private String userPassword;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,6 +122,28 @@ public class LoginActivity extends Activity {
         }
         return true;
     }
+    
+    // 司机登陆------4
+    // 格式为:用户ID@用户密码
+    // 提交命令：flag=4&columns=ID@PASSWORD&values=%s@%s
+	private String makeParameter() {
+		String parameter = "";
+		userID = idEdit.getText().toString();
+		userPassword = passEdit.getText().toString();
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("flag=4&columns=ID@PASSWORD&values=");
+		builder.append(userID);
+		builder.append("@");
+		builder.append(userPassword);
+		parameter = builder.toString();
+
+		Log.d("LoginActivity", parameter);
+
+		return parameter;
+	}
+    
+    
 
     /**
      * 注册按钮
@@ -158,7 +185,7 @@ public class LoginActivity extends Activity {
                     clicking = false;
                     return;
                 }
-                final String content = "";// 请求参数
+                final String content = makeParameter();// 请求参数
                 try {
                     progressDialog = ProgressDialog.show(LoginActivity.this,
                             "登陆中...", "请稍候...", true, false);
@@ -167,7 +194,7 @@ public class LoginActivity extends Activity {
                         @Override
                         public void run() {
                             String result = netservice.getWSReponse(content);
-                            Log.d("result", result);// 注意result是登录返回的字符串
+                            Log.d("LoginActivity", result);// 注意result是登录返回的字符串
 
                             Message msg = new Message();
                             Bundle bundle = new Bundle();
@@ -200,19 +227,16 @@ public class LoginActivity extends Activity {
                 LoginActivity.this.finish();// 销毁窗口
             } else {
                 String resultString = msg.getData().getString("msg");
-                if (resultString.equals(Settings.SUCC)) {
+                if (resultString.contains(Settings.SUCC)) {
                     SharedPreferencesTool.saveUserInfo(getBaseContext(),
                             "UserInfo");
                     startActivity(new Intent(LoginActivity.this,
                             MapActivity.class)); // fade效果切换窗口
                     overridePendingTransition(R.anim.fade, R.anim.hold);
                     LoginActivity.this.finish();
-                } else if (resultString.equals(Settings.FAIL)) {
+                } else  {
                     Tools.alert(LoginActivity.this, "登陆失败,请检查网络或重试!");
-                } else {
-                    Tools.alert(LoginActivity.this, "登陆失败:" + resultString
-                            + " 请检查网络或重试!");
-                }
+                } 
 
             }
         }
