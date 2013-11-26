@@ -19,7 +19,7 @@ public class Settings {
     public final static String CLIENTPROTOCOLERROR = "客户端协议错误";
 
     /*请求WebService时的参数*/
-    public final static String PROXYURL = "http://192.168.1.103:8080/PoliceWSNew/services/jwt.jws";// 前置机的IP
+    public final static String PROXYURL = "http://192.168.1.112:8080/PoliceWSNew/services/jwt.jws";// 前置机的IP
     public final static String WEBMETHODNAME = "execute";
 
     /*用户信息*/
@@ -29,7 +29,7 @@ public class Settings {
     public static String USERNAME = "";//用户姓名或者是车牌照
 
     /*测试模式标志*/
-    public final static boolean TESTMODE = true;
+    public final static boolean TESTMODE = false;
 
     /* 解析成功标记 */
     public final static String SUCC = "ZDSUC";

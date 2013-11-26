@@ -2,7 +2,10 @@ package org.cug.driver;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -58,7 +61,7 @@ public class RegisterActivity extends Activity {
 	 * 第一次打开应用时，读取本地用户信息设置
 	 */
 	private void initUserInfo() {
-		SharedPreferencesTool.loadUserInfo(getBaseContext(), "UserInfo");
+		SharedPreferencesTool.loadUserInfo(getBaseContext(), "DriverInfo");
 		idEdit.setText(Settings.USERID);
 		passEdit.setText(Settings.PASSWORD);
 		nameEdit.setText(Settings.USERNAME);
@@ -201,10 +204,7 @@ public class RegisterActivity extends Activity {
 			} else {
 				String resultString = msg.getData().getString("msg2");
 				if (resultString.contains(Settings.SUCC)) {
-
-					SharedPreferencesTool.saveUserInfo(getBaseContext(),
-							"UserInfo");
-
+					saveUserInfo(getBaseContext(), "DriverInfo");
 					startActivity(new Intent(RegisterActivity.this,
 							MapActivity.class)); // fade效果切换窗口
 					overridePendingTransition(R.anim.fade, R.anim.hold);
@@ -221,5 +221,19 @@ public class RegisterActivity extends Activity {
 			}
 		}
 	};
+
+	/**
+	 * 保存用户信息到配置文件
+	 */
+	public void saveUserInfo(Context context, String name) {
+		SharedPreferences perference = context.getSharedPreferences(name,
+				Activity.MODE_PRIVATE);
+		Editor editor = perference.edit();
+		editor.putString("USERID", userID);// 用户ID
+		editor.putString("PASSWORD", userPassword);// 密码
+		editor.putString("PHONEID", userPhone);// 手机号
+		editor.putString("USERNAME", userName);// 用户名或者车牌照
+		editor.commit();// 未调用commit前，数据实际是没有存储进文件中的。 调用后，存储
+	}
 
 }
