@@ -1,5 +1,6 @@
 package org.cug.driver;
 
+import org.cug.driver.ShowMessageActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,8 +39,14 @@ public class MyReceiver extends BroadcastReceiver {
           //send the UnRegistration Id to your server...
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
         	Log.d(TAG, "接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
-        	processCustomMessage(context, bundle);
-        
+        	//processCustomMessage(context, bundle);
+        	//打开自定义的Activity
+        	Log.d("MyReceiver", "收到消息");
+        	Intent i = new Intent(context, ShowMessageActivity.class);
+        	i.putExtras(bundle);
+        	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        	context.startActivity(i);
+        	
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "接收到推送下来的通知");
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
@@ -49,7 +56,7 @@ public class MyReceiver extends BroadcastReceiver {
             Log.d(TAG, "用户点击打开了通知");
             
         	//打开自定义的Activity
-        	Intent i = new Intent(context, TestActivity.class);
+        	Intent i = new Intent(context, ShowMessageActivity.class);
         	i.putExtras(bundle);
         	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         	context.startActivity(i);
@@ -76,25 +83,25 @@ public class MyReceiver extends BroadcastReceiver {
 		return sb.toString();
 	}
 	
-	//send msg to MainActivity
-	private void processCustomMessage(Context context, Bundle bundle) {
-		if (MapActivity.isForeground) {
-			String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-			String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-			Intent msgIntent = new Intent(MapActivity.MESSAGE_RECEIVED_ACTION);
-			msgIntent.putExtra(MapActivity.KEY_MESSAGE, message);
-			if (!ExampleUtil.isEmpty(extras)) {
-				try {
-					JSONObject extraJson = new JSONObject(extras);
-					if (null != extraJson && extraJson.length() > 0) {
-						msgIntent.putExtra(MapActivity.KEY_EXTRAS, extras);
-					}
-				} catch (JSONException e) {
-
-				}
-
-			}
-			context.sendBroadcast(msgIntent);
-		}
-	}
+//	//send msg to MainActivity
+//	private void processCustomMessage(Context context, Bundle bundle) {
+//		if (MapActivity.isForeground) {
+//			String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+//			String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+//			Intent msgIntent = new Intent(MapActivity.MESSAGE_RECEIVED_ACTION);
+//			msgIntent.putExtra(MapActivity.KEY_MESSAGE, message);
+//			if (!ExampleUtil.isEmpty(extras)) {
+//				try {
+//					JSONObject extraJson = new JSONObject(extras);
+//					if (null != extraJson && extraJson.length() > 0) {
+//						msgIntent.putExtra(MapActivity.KEY_EXTRAS, extras);
+//					}
+//				} catch (JSONException e) {
+//
+//				}
+//
+//			}
+//			context.sendBroadcast(msgIntent);
+//		}
+//	}
 }
