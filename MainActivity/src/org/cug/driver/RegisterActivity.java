@@ -17,7 +17,10 @@ import android.widget.Toast;
 import org.cug.network.NetService;
 import org.cug.util.Settings;
 import org.cug.util.SharedPreferencesTool;
+import org.cug.util.SysApplication;
 import org.cug.util.Tools;
+
+
 
 import java.net.UnknownHostException;
 
@@ -44,7 +47,10 @@ public class RegisterActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_register);
-
+		
+		// 设置程序完全退出
+		SysApplication.getInstance().addActivity(this);
+		
 		idEdit = (EditText) findViewById(R.id.editText_register_id);
 		passEdit = (EditText) findViewById(R.id.editText_register_password);
 		nameEdit = (EditText) findViewById(R.id.editText_register_name);
@@ -55,6 +61,8 @@ public class RegisterActivity extends Activity {
 		Button clearButton = (Button) findViewById(R.id.button_register_clear);
 		clearButton.setOnClickListener(new clearButtonClickListener());
 
+		
+		
 	}
 
 	/**
