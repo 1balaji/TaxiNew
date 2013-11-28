@@ -1,18 +1,23 @@
 package org.cug.driver;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.cug.network.NetService;
+import org.cug.util.SQLiteTool;
 import org.cug.util.Settings;
+import org.cug.util.SharedPreferencesTool;
 import org.cug.util.SysApplication;
 import org.cug.util.Tools;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import cn.jpush.android.api.JPushInterface;
 
@@ -34,6 +39,8 @@ public class ShowMessageActivity extends Activity {
 	private String distanceStr;
 	private String usertimeStr;
 
+	private JSONObject extraJson = new JSONObject();
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_showmessage);
@@ -50,7 +57,13 @@ public class ShowMessageActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				
+				if (null != extraJson && extraJson.length() > 0) {
+					sendHandleTaxiRequest();
+				} else {
+					Tools.alert(getBaseContext(), "当前无订单信息！");
+					return;
+				}
+
 			}
 		});
 		cancelButton = (Button) findViewById(R.id.button_showmeaasge_cancel);
@@ -82,23 +95,26 @@ public class ShowMessageActivity extends Activity {
 
 	}
 
-	// 接收推送的自定义消息
+	/**
+	 * 获取推送来的消息
+	 */
 	private boolean getSendMessage() {
 		boolean isResult = false;
-		Intent intent = getIntent();
+		getIntent();
 		Bundle bundle = getIntent().getExtras();
 		if (null != bundle) {
 
-			String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+			bundle.getString(JPushInterface.EXTRA_MESSAGE);
 			String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
 			if (!ExampleUtil.isEmpty(extras)) {
 				try {
-					JSONObject extraJson = new JSONObject(extras);
+					extraJson = new JSONObject(extras);
 					if (null != extraJson && extraJson.length() > 0) {
 						startNameStr = extraJson.getString("STARTADDRESS");
 						endNameStr = extraJson.getString("ENDADDRESS");
 						distanceStr = extraJson.getString("DISTANCE");
 						usertimeStr = extraJson.getString("NEEDTIME");
+
 						isResult = true;
 					}
 				} catch (JSONException e) {
@@ -106,6 +122,102 @@ public class ShowMessageActivity extends Activity {
 			}
 		}
 		return isResult;
+	}
+
+	/**
+	 * 向后台发送抢单请求
+	 */
+	private void sendHandleTaxiRequest() {
+
+		String content = makeParameter();// 请求参数
+		NetService netservice = NetService.getInstance();
+		String resultString = netservice.getWSReponse(content);
+		if (resultString.contains(Settings.SUCC)) {
+			// goToMapActivity();
+			Tools.alert(ShowMessageActivity.this, "已成功抢单！");
+			routeInfoIntoDb(extraJson);
+			ShowMessageActivity.this.finish();
+		} else {
+			Tools.alert(ShowMessageActivity.this, "未能成功抢单,请检查网络或重试!");
+		}
+
+	}
+
+	/**
+	 * 格式为:司机ID@接受订单的时间@订单ID@订单标识
+	 * 提交命令：flag=9&columns=RECEIVEDRIVERID@RECEIVETIME@ORDERID@ORDERIDS&values=*@*@*@
+	 */
+	private String makeParameter() {
+
+		SharedPreferencesTool.loadUserInfo(getBaseContext(), "DriverInfo");
+
+		String parameter = "";
+		StringBuilder builder = new StringBuilder();
+		builder.append("flag=9&columns=RECEIVEDRIVERID@RECEIVETIME@ORDERID@ORDERIDS&values=");
+		builder.append(Settings.USERID);
+		builder.append("@");
+		try {
+			builder.append(extraJson.getString("NEEDTIME"));
+			builder.append("@");
+			builder.append(extraJson.getString("ORDERIDS"));
+			builder.append("@");
+			builder.append(extraJson.getString("ORDERID"));
+			parameter = builder.toString();
+			Log.d("ShowMessageActivity", parameter);
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return parameter;
+	}
+
+	/**
+	 * 把抢单成功的打车信息存入数据库
+	 */
+	public void routeInfoIntoDb(JSONObject extraJson) {
+
+		List<String> content = new ArrayList<String>();
+
+		SQLiteTool sqLiteTool = new SQLiteTool();
+
+		try {
+			String shapeStart = extraJson.getString("SHAPESTART");
+			String[] shapeStartArr = shapeStart.split(",");
+			String startlat = shapeStartArr[0];
+			String startlon = shapeStartArr[1];
+
+			content.add(startlat);
+			content.add(startlon);
+			content.add(extraJson.getString("STARTADDRESS"));
+
+			String shapeEnd = extraJson.getString("SHAPEEND");
+			String[] shapeEndArr = shapeEnd.split(",");
+			String endlat = shapeEndArr[0];
+			String endlon = shapeEndArr[1];
+
+			content.add(endlat);
+			content.add(endlon);
+			content.add(extraJson.getString("ENDADDRESS"));
+
+			content.add(extraJson.getString("DISTANCE"));
+			content.add(extraJson.getString("NEEDTIME"));
+
+			content.add("姓名");
+			content.add(extraJson.getString("USERPHONE"));
+			content.add(extraJson.getString("USERID"));
+
+			content.add(extraJson.getString("ORDERIDS"));
+			content.add(extraJson.getString("issuccessed"));
+
+			sqLiteTool.insertContent(content, "passengerinfo");
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }

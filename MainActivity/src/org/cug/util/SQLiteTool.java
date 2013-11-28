@@ -8,6 +8,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class SQLiteTool {
@@ -59,11 +60,11 @@ public class SQLiteTool {
      * 向表中插入信息
      * 字段名字
      */
-    public boolean insertContent(String[] content, String tableName) {
+    public boolean insertContent(List content, String tableName) {
 
         ContentValues values = new ContentValues();
         for (int i = 0; i < columns.length; i++) {
-            values.put(columns[i], content[i]);
+            values.put(columns[i], content.get(i).toString());
         }
 
         try {
