@@ -29,7 +29,7 @@ public class Settings {
     public static String USERNAME = "";//用户姓名或者是车牌照
 
     /*测试模式标志*/
-    public final static boolean TESTMODE = true;
+    public final static boolean TESTMODE = false;
 
     /* 解析成功标记 */
     public final static String SUCC = "ZDSUC";
