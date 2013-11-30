@@ -134,8 +134,8 @@ public class ShowMessageActivity extends Activity {
 		String resultString = netservice.getWSReponse(content);
 		if (resultString.contains(Settings.SUCC)) {
 			// goToMapActivity();
-			Tools.alert(ShowMessageActivity.this, "已成功抢单！");
 			routeInfoIntoDb(extraJson);
+			Tools.alert(ShowMessageActivity.this, "已成功抢单！");
 			ShowMessageActivity.this.finish();
 		} else {
 			Tools.alert(ShowMessageActivity.this, "未能成功抢单,请检查网络或重试!");
@@ -212,7 +212,7 @@ public class ShowMessageActivity extends Activity {
 			content.add(extraJson.getString("USERID"));
 
 			content.add(extraJson.getString("ORDERIDS"));
-			content.add(extraJson.getString("issuccessed"));
+			content.add("issuccessed");
 
 			sqLiteTool.insertContent(content, "passengerinfo");
 
