@@ -144,8 +144,8 @@ public class ShowMessageActivity extends Activity {
 	}
 
 	/**
-	 * 格式为:司机ID@接受订单的时间@订单ID@订单标识
-	 * 提交命令：flag=9&columns=RECEIVEDRIVERID@RECEIVETIME@ORDERID@ORDERIDS&values=*@*@*@
+	 * 格式为:司机ID@接受订单的时间@订单ID@订单标识@发布人ID 提交命令：flag=9&columns=RECEIVEDRIVERID@RECEIVETIME@ORDERID@ORDERIDS@USERID
+	 * &values=*@*@*@
 	 */
 	private String makeParameter() {
 
@@ -153,7 +153,7 @@ public class ShowMessageActivity extends Activity {
 
 		String parameter = "";
 		StringBuilder builder = new StringBuilder();
-		builder.append("flag=9&columns=RECEIVEDRIVERID@RECEIVETIME@ORDERID@ORDERIDS&values=");
+		builder.append("flag=9&columns=RECEIVEDRIVERID@RECEIVETIME@ORDERID@ORDERIDS@USERID&values=");
 		builder.append(Settings.USERID);
 		builder.append("@");
 		try {
@@ -162,6 +162,9 @@ public class ShowMessageActivity extends Activity {
 			builder.append(extraJson.getString("ORDERIDS"));
 			builder.append("@");
 			builder.append(extraJson.getString("ORDERID"));
+			builder.append("@");
+			builder.append(extraJson.getString("USERID"));
+
 			parameter = builder.toString();
 			Log.d("ShowMessageActivity", parameter);
 
