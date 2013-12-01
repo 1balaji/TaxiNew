@@ -144,7 +144,8 @@ public class ShowMessageActivity extends Activity {
 	}
 
 	/**
-	 * 格式为:司机ID@接受订单的时间@订单ID@订单标识@发布人ID 提交命令：flag=9&columns=RECEIVEDRIVERID@RECEIVETIME@ORDERID@ORDERIDS@USERID
+	 * 格式为:司机ID@接受订单的时间@订单ID@订单标识@发布人ID@ 
+	 * 提交命令：flag=9&columns=RECEIVEDRIVERID@RECEIVETIME@ORDERID@ORDERIDS@USERID
 	 * &values=*@*@*@
 	 */
 	private String makeParameter() {
