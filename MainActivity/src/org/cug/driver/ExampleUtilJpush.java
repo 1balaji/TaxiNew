@@ -1,4 +1,4 @@
-package org.cug.amap.jpush;
+package org.cug.driver;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.widget.Toast;
 
-public class ExampleUtil {
+public class ExampleUtilJpush {
 	public static final String PREFS_NAME = "JPUSH_EXAMPLE";
 	public static final String PREFS_DAYS = "JPUSH_EXAMPLE_DAYS";
 	public static final String PREFS_START_TIME = "PREFS_START_TIME";

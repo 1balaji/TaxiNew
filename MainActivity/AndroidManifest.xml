@@ -93,14 +93,14 @@
             android:name="org.cug.driver.ShowMessageActivity"
             android:label="showmessage" />
 
-        <!-- Required  SDK核心功能 -->
+        <!-- Required  SDK核心功能   JPush -->
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
             android:exported="false" >
         </service>
 
-        <!-- Required SDK 核心功能 -->
+        <!-- Required SDK 核心功能    JPush -->
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
@@ -119,7 +119,7 @@
             android:enabled="true" >
             <intent-filter android:priority="1000" >
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
- <!-- Required  显示通知栏 -->
+                <!-- Required  显示通知栏 -->
                 <category android:name="org.cug.driver" />
             </intent-filter>
             <intent-filter>
@@ -140,20 +140,20 @@
 
         <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
-            android:name="org.cug.driver.MyReceiver"
+            android:name="org.cug.driver.MyReceiverJpush"
             android:enabled="true" >
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTRATION" />
- <!-- Required  用户注册SDK的intent -->
+                <!-- Required  用户注册SDK的intent -->
                 <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
- <!-- Required  用户接收SDK消息的intent -->
+                <!-- Required  用户接收SDK消息的intent -->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
- <!-- Required  用户接收SDK通知栏信息的intent -->
+                <!-- Required  用户接收SDK通知栏信息的intent -->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
- <!-- Required  用户打开自定义通知栏的intent -->
+                <!-- Required  用户打开自定义通知栏的intent -->
                 <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
- <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
+                <!-- Optional 用户接受Rich Push JavaScript 回调函数的intent -->
                 <category android:name="org.cug.driver" />
             </intent-filter>
         </receiver>
@@ -165,7 +165,7 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="7c148746eca11045c809400c" />
- <!-- </>值来自开发者平台取得的AppKey -->
+        <!-- </>值来自开发者平台取得的AppKey   JPush -->
 
     </application>
 

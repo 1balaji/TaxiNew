@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
 import cn.jpush.android.api.InstrumentedActivity;
 import cn.jpush.android.api.JPushInterface;
 
@@ -71,11 +69,9 @@ public class ReceiveMessage extends InstrumentedActivity {
 				if (!ExampleUtil.isEmpty(extras)) {
 					showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
 				}
-				
+
 			}
 		}
 	}
-
-
 
 }

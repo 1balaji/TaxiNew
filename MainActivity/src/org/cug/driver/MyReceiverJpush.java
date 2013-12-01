@@ -1,7 +1,4 @@
-package org.cug.amap.jpush;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+package org.cug.driver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,12 +12,15 @@ import cn.jpush.android.api.JPushInterface;
  * 
  * 如果不定义这个 Receiver，则： 1) 默认用户会打开主界面 2) 接收不到自定义消息
  */
-public class MyReceiver extends BroadcastReceiver {
+public class MyReceiverJpush extends BroadcastReceiver {
 	private static final String TAG = "MyReceiver";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Bundle bundle = intent.getExtras();
+
+		String messageTest = bundle.getString("cn.jpush.android.ALERT");
+
 		Log.d(TAG, "onReceive - " + intent.getAction() + ", extras: "
 				+ printBundle(bundle));
 
@@ -39,8 +39,13 @@ public class MyReceiver extends BroadcastReceiver {
 			Log.d(TAG,
 					"接收到推送下来的自定义消息: "
 							+ bundle.getString(JPushInterface.EXTRA_MESSAGE));
-
-			processCustomMessage(context, bundle);
+			// processCustomMessage(context, bundle);
+			// 打开自定义的Activity
+			Log.d("MyReceiver", "收到消息");
+			Intent i = new Intent(context, ShowMessageActivity.class);
+			i.putExtras(bundle);
+			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(i);
 
 		} else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent
 				.getAction())) {
@@ -54,7 +59,7 @@ public class MyReceiver extends BroadcastReceiver {
 			Log.d(TAG, "用户点击打开了通知");
 
 			// 打开自定义的Activity
-			Intent i = new Intent(context, TestActivity.class);
+			Intent i = new Intent(context, ShowMessageActivity.class);
 			i.putExtras(bundle);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(i);
@@ -79,32 +84,32 @@ public class MyReceiver extends BroadcastReceiver {
 			if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
 				sb.append("\nkey:" + key + ", value:" + bundle.getInt(key));
 			} else {
-				sb.append("\nkey:" + key + ", value:" + bundle.getString(key));
+				sb.append("\nkey:" + key + ", value:" + bundle.getString(key));// key:cn.jpush.android.ALERT,
+																				// value:65489
 			}
 		}
 		return sb.toString();
 	}
 
-	// send msg to MainActivity
-	private void processCustomMessage(Context context, Bundle bundle) {
-		if (ReceiveMessage.isForeground) {
-			String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-			String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-			Intent msgIntent = new Intent(
-					ReceiveMessage.MESSAGE_RECEIVED_ACTION);
-			msgIntent.putExtra(ReceiveMessage.KEY_MESSAGE, message);
-			if (!ExampleUtil.isEmpty(extras)) {
-				try {
-					JSONObject extraJson = new JSONObject(extras);
-					if (null != extraJson && extraJson.length() > 0) {
-						msgIntent.putExtra(ReceiveMessage.KEY_EXTRAS, extras);
-					}
-				} catch (JSONException e) {
-
-				}
-
-			}
-			context.sendBroadcast(msgIntent);
-		}
-	}
+	// //send msg to MainActivity
+	// private void processCustomMessage(Context context, Bundle bundle) {
+	// if (MapActivity.isForeground) {
+	// String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+	// String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+	// Intent msgIntent = new Intent(MapActivity.MESSAGE_RECEIVED_ACTION);
+	// msgIntent.putExtra(MapActivity.KEY_MESSAGE, message);
+	// if (!ExampleUtil.isEmpty(extras)) {
+	// try {
+	// JSONObject extraJson = new JSONObject(extras);
+	// if (null != extraJson && extraJson.length() > 0) {
+	// msgIntent.putExtra(MapActivity.KEY_EXTRAS, extras);
+	// }
+	// } catch (JSONException e) {
+	//
+	// }
+	//
+	// }
+	// context.sendBroadcast(msgIntent);
+	// }
+	// }
 }

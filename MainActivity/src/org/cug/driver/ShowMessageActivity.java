@@ -106,7 +106,7 @@ public class ShowMessageActivity extends Activity {
 
 			bundle.getString(JPushInterface.EXTRA_MESSAGE);
 			String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-			if (!ExampleUtil.isEmpty(extras)) {
+			if (!ExampleUtilJpush.isEmpty(extras)) {
 				try {
 					extraJson = new JSONObject(extras);
 					if (null != extraJson && extraJson.length() > 0) {
