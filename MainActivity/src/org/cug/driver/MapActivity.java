@@ -6,6 +6,8 @@ import org.cug.amap.jpush.ExampleUtil;
 import org.cug.amap.route.RouteOverlay;
 import org.cug.amap.util.AMapUtil;
 import org.cug.amap.util.Constants;
+import org.cug.util.Settings;
+import org.cug.util.SharedPreferencesTool;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -98,7 +100,9 @@ public class MapActivity extends FragmentActivity implements LocationSource,
 
 	// 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
 	private void initJpush() {
-		JPushInterface.setAlias(getApplicationContext(), "test1", null);
+		
+		SharedPreferencesTool.loadUserInfo(getBaseContext(), "DriverInfo");
+		JPushInterface.setAlias(getApplicationContext(), Settings.USERID, null);
 		JPushInterface.init(getApplicationContext());
 	}
 
