@@ -98,9 +98,13 @@ public class MapActivity extends FragmentActivity implements LocationSource,
 
 	}
 
+	/*
+	 * 以下为初始化JPush部分
+	 */
+
 	// 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
 	private void initJpush() {
-		
+
 		SharedPreferencesTool.loadUserInfo(getBaseContext(), "DriverInfo");
 		JPushInterface.setAlias(getApplicationContext(), Settings.USERID, null);
 		JPushInterface.init(getApplicationContext());
@@ -137,6 +141,10 @@ public class MapActivity extends FragmentActivity implements LocationSource,
 			}
 		}
 	}
+
+	/*
+	 * 以上为初始化JPush部分
+	 */
 
 	/**
 	 * 初始化AMap对象
