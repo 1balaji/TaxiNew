@@ -6,6 +6,7 @@ import org.cug.amap.jpush.ExampleUtil;
 import org.cug.amap.route.RouteOverlay;
 import org.cug.amap.util.AMapUtil;
 import org.cug.amap.util.Constants;
+import org.cug.services.GetGPSInfoService;
 import org.cug.util.Settings;
 import org.cug.util.SharedPreferencesTool;
 
@@ -84,6 +85,8 @@ public class MapActivity extends FragmentActivity implements LocationSource,
 	private int distance;
 
 	public static boolean isForeground = false;
+
+	private Intent GPSServiceIntent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -215,6 +218,10 @@ public class MapActivity extends FragmentActivity implements LocationSource,
 			Message msg = new Message();
 			msg.obj = str;
 
+			GPSServiceIntent = new Intent(MapActivity.this,
+					GetGPSInfoService.class);
+			startService(GPSServiceIntent);
+
 		}
 	}
 
@@ -229,6 +236,7 @@ public class MapActivity extends FragmentActivity implements LocationSource,
 		}
 		mAMapLocationManager.requestLocationUpdates(
 				LocationProviderProxy.AMapNetwork, 10, 5000, this);
+
 	}
 
 	@Override

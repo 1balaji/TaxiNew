@@ -113,6 +113,12 @@
             </intent-filter>
         </service>
 
+         <service
+            android:name="org.cug.services.GetGPSInfoService"
+            android:enabled="true" >
+        </service>
+        
+        
         <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"

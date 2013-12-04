@@ -3,6 +3,7 @@ package org.cug.driver;
 import java.net.UnknownHostException;
 
 import org.cug.network.NetService;
+import org.cug.services.GetGPSInfoService;
 import org.cug.util.Settings;
 import org.cug.util.SharedPreferencesTool;
 import org.cug.util.SysApplication;
@@ -219,8 +220,10 @@ public class LoginActivity extends Activity {
 			progressDialog.dismiss();
 			if (Settings.TESTMODE) {
 				startActivity(new Intent(LoginActivity.this, MapActivity.class));
+
 				overridePendingTransition(R.anim.fade, R.anim.hold);// fade效果切换窗口
 				LoginActivity.this.finish();// 销毁窗口
+
 			} else {
 				String resultString = msg.getData().getString("msg");
 				if (resultString.contains(Settings.SUCC)) {

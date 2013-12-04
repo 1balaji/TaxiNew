@@ -5,39 +5,39 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.cug.driver.ShowMessageActivity;
 import org.cug.network.NetService;
 import org.cug.util.Settings;
 import org.cug.util.SharedPreferencesTool;
-import org.cug.util.Tools;
+
+import android.app.Activity;
+import android.app.Service;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.location.Location;
+import android.os.Binder;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
-
-import android.app.Service;
-import android.content.Intent;
-import android.location.Location;
-import android.os.Binder;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Message;
-import android.util.Log;
+import com.amap.api.maps.LocationSource;
 
 /**
  * 实时上传司机的位置信息
  */
-public class GetGPSInfoService extends Service implements AMapLocationListener {
+public class GetGPSInfoService extends Service implements AMapLocationListener,
+		LocationSource {
 
 	private MyBinder myBinder = new MyBinder();
-	private Timer timer;
-	private TimerTask timertask;
-	private LocationManagerProxy mAMapLocManager = null;
+
 	private String longitude = null;
 	private String latitude = null;
 
+	private LocationManagerProxy mAMapLocManager = null;
+	private OnLocationChangedListener mListener;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -49,9 +49,12 @@ public class GetGPSInfoService extends Service implements AMapLocationListener {
 	public void onCreate() {
 		Log.d("GetGPSInfoService", "onCreate");
 		super.onCreate();
-		timer = new Timer();
-		timertask = new GpsTask();
-		timer.schedule(timertask, 0, 180000);// 三分钟触发一次
+
+		if (mAMapLocManager == null) {
+			mAMapLocManager = LocationManagerProxy.getInstance(this);
+		}
+		mAMapLocManager.requestLocationUpdates(
+				LocationProviderProxy.AMapNetwork, 10, 5000, this);
 
 	}
 
@@ -59,7 +62,7 @@ public class GetGPSInfoService extends Service implements AMapLocationListener {
 	public void onDestroy() {
 		Log.d("GetGPSInfoService", "onDestroy");
 		super.onDestroy();
-		cancelTask();
+
 	}
 
 	@Override
@@ -86,17 +89,6 @@ public class GetGPSInfoService extends Service implements AMapLocationListener {
 		}
 	}
 
-	public boolean enableMyLocation() {
-		boolean result = false;
-		if (mAMapLocManager
-				.isProviderEnabled(LocationProviderProxy.AMapNetwork)) {
-			mAMapLocManager.requestLocationUpdates(
-					LocationProviderProxy.AMapNetwork, 2000, 10, this);
-			result = true;
-		}
-		return result;
-	}
-	
 	// 司机上传位置信息----7
 	// 格式为：车辆ID@位置坐标@车辆状态@车辆推送码@添加时间@车牌照@电话@司机姓名
 	// 指令格式：flag=7&columns=CARID@SHAPE@CARSTATE@CARCODE@TJSJ@CPZ@PHONE@DRIVERNAME&values=*@*@*@*@*@*@*@
@@ -104,8 +96,19 @@ public class GetGPSInfoService extends Service implements AMapLocationListener {
 	// 1 成功 @ZDSUC@***
 	// 2 失败 @ZDFAL@保存信息失败
 	public boolean sendXY() {
+
+		Log.d("sendXY", longitude);
+		Log.d("sendXY", latitude);
+
 		NetService netservice = NetService.getInstance();
-		SharedPreferencesTool.loadUserInfo(getBaseContext(), "DriverInfo");
+
+		SharedPreferences perference = getBaseContext().getSharedPreferences(
+				"DriverInfo", Activity.MODE_PRIVATE);
+		Settings.USERID = perference.getString("USERID", "");
+		Settings.PASSWORD = perference.getString("SSXQNum", "");
+		Settings.PHONEID = perference.getString("PHONEID", "");
+		Settings.USERNAME = perference.getString("USERNAME", "");
+
 		// 时间
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date curDate = new Date(System.currentTimeMillis());
@@ -129,7 +132,7 @@ public class GetGPSInfoService extends Service implements AMapLocationListener {
 		stringBuilder.append("@");
 		stringBuilder.append(Settings.USERNAME);// 司机姓名
 		String parameter = stringBuilder.toString();
-		Log.d("GetGPSInfoService", parameter + "");
+		// Log.d("GetGPSInfoService", parameter + "");
 		String resultString = netservice.getWSReponse(parameter);
 		if (resultString.contains(Settings.SUCC)) {
 			Log.d("GetGPSInfoService", "上传位置信息" + resultString);
@@ -139,38 +142,6 @@ public class GetGPSInfoService extends Service implements AMapLocationListener {
 			return false;
 		}
 
-	}
-
-	/**
-	 * 上传GPS信息的定时器
-	 * 
-	 */
-	class GpsTask extends TimerTask {
-		public void run() {
-			System.out.format("GetGPSInfoService up!");
-			if (enableMyLocation()) {
-				Log.d("GetGPSInfoService", "获取到位置信息");
-				sendXY();
-			} else {
-				Log.d("GetGPSInfoService", "没有获取到位置信息");
-				return;
-			}
-		}
-	}
-
-	/**
-	 * 关闭定时器
-	 */
-	public void cancelTask() {
-		if (timer != null) {
-			timer.cancel();
-			timer = null;
-		}
-		if (timertask != null) {
-			timertask.cancel();
-			timertask = null;
-		}
-		Log.d("GetGPSInfoService", "关闭GPS服务");
 	}
 
 	public void disableMyLocation() {
@@ -204,6 +175,11 @@ public class GetGPSInfoService extends Service implements AMapLocationListener {
 	@Override
 	public void onLocationChanged(AMapLocation location) {
 		// TODO Auto-generated method stub
+
+		if (mListener != null) {
+			mListener.onLocationChanged(location);
+		}
+
 		if (location != null) {
 			Double geoLat = location.getLatitude();
 			Double geoLng = location.getLongitude();
@@ -219,27 +195,26 @@ public class GetGPSInfoService extends Service implements AMapLocationListener {
 				desc = locBundle.getString("desc");
 			}
 
-			// String str = ("定位成功:(" + geoLng + "," + geoLat + ")"
-			// + "\n精    度    :" + location.getAccuracy() + "米"
-			// + "\n城市编码:" + cityCode + "\n位置描述:" + desc);
+			latitude = Double.toString(geoLat);
+			longitude = Double.toString(geoLng);
 
-			String str = Double.toString(geoLat) + "@"
-					+ Double.toString(geoLng);
-
-			Message msg = new Message();
-			msg.obj = str;
-			if (handler != null) {
-				handler.sendMessage(msg);
+			if (sendXY()) {
+				Log.d("GetGPSInfoService", "上传位置信息成功");
 			}
+
 		}
 	}
 
-	private Handler handler = new Handler() {
-		public void handleMessage(Message msg) {
-			String LatLngStr = (String) msg.obj;
-			String[] arr = LatLngStr.split("@");
-			longitude = arr[1];
-			latitude = arr[0];
-		}
-	};
+	@Override
+	public void activate(OnLocationChangedListener arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deactivate() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
