@@ -218,9 +218,11 @@ public class MapActivity extends FragmentActivity implements LocationSource,
 			Message msg = new Message();
 			msg.obj = str;
 
-			GPSServiceIntent = new Intent(MapActivity.this,
-					GetGPSInfoService.class);
-			startService(GPSServiceIntent);
+			if (!Settings.TESTMODE) {
+				GPSServiceIntent = new Intent(MapActivity.this,
+						GetGPSInfoService.class);
+				startService(GPSServiceIntent);
+			}
 
 		}
 	}
