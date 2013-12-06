@@ -61,6 +61,7 @@ public class GetGPSInfoService extends Service implements AMapLocationListener,
 	@Override
 	public void onDestroy() {
 		Log.d("GetGPSInfoService", "onDestroy");
+
 		super.onDestroy();
 
 	}
@@ -80,6 +81,7 @@ public class GetGPSInfoService extends Service implements AMapLocationListener,
 	@Override
 	public boolean onUnbind(Intent intent) {
 		Log.d("GetGPSInfoService", "onUnbind");
+
 		return super.onUnbind(intent);
 	}
 

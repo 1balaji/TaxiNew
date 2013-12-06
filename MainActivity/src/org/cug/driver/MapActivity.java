@@ -180,7 +180,7 @@ public class MapActivity extends FragmentActivity implements LocationSource,
 	@Override
 	protected void onPause() {
 		super.onPause();
-		// deactivate();
+		deactivate();
 	}
 
 	@Override
@@ -224,11 +224,9 @@ public class MapActivity extends FragmentActivity implements LocationSource,
 			Message msg = new Message();
 			msg.obj = str;
 
-			// if (Settings.TESTMODE) {
-			// GPSServiceIntent = new Intent(MapActivity.this,
-			// GetGPSInfoService.class);
-			// startService(GPSServiceIntent);
-			// }
+			GPSServiceIntent = new Intent(MapActivity.this,
+					GetGPSInfoService.class);
+			startService(GPSServiceIntent);
 
 		}
 	}
