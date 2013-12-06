@@ -10,11 +10,13 @@ import org.cug.services.GetGPSInfoService;
 import org.cug.util.Settings;
 import org.cug.util.SharedPreferencesTool;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -108,8 +110,12 @@ public class MapActivity extends FragmentActivity implements LocationSource,
 	// 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
 	private void initJpush() {
 
-		SharedPreferencesTool.loadUserInfo(getBaseContext(), "DriverInfo");
-		JPushInterface.setAlias(getApplicationContext(), Settings.USERID, null);
+		SharedPreferences perference = getBaseContext().getSharedPreferences(
+				"DriverInfo", Activity.MODE_PRIVATE);
+
+		String CarID = perference.getString("USERID", "");
+
+		JPushInterface.setAlias(getApplicationContext(), CarID, null);
 		JPushInterface.init(getApplicationContext());
 	}
 
@@ -218,11 +224,11 @@ public class MapActivity extends FragmentActivity implements LocationSource,
 			Message msg = new Message();
 			msg.obj = str;
 
-			if (!Settings.TESTMODE) {
-				GPSServiceIntent = new Intent(MapActivity.this,
-						GetGPSInfoService.class);
-				startService(GPSServiceIntent);
-			}
+			// if (Settings.TESTMODE) {
+			// GPSServiceIntent = new Intent(MapActivity.this,
+			// GetGPSInfoService.class);
+			// startService(GPSServiceIntent);
+			// }
 
 		}
 	}

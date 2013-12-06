@@ -15,6 +15,7 @@ import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -287,4 +288,5 @@ public class LoginActivity extends Activity {
 		}
 		return false;
 	}
+	
 }
